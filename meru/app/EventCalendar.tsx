@@ -1,21 +1,8 @@
 "use client";
 import { DateTime, Settings } from "luxon";
-// import { useMemo } from "react";
 
-import { Calendar, Views, luxonLocalizer } from "react-big-calendar";
+import { Calendar, luxonLocalizer } from "react-big-calendar";
 import { HiCheckCircle } from "react-icons/hi";
-
-// only use `Settings` if you require optional time zone support
-Settings.defaultZone = "Europe/Helsinki";
-// end optional time zone support
-
-// Luxon uses the Intl API, which currently does not contain `weekInfo`
-// to determine which weekday is the start of the week by `culture`.
-// The `luxonLocalizer` defaults this to Sunday, which differs from
-// the Luxon default of Monday. The localizer requires this option
-// to change the display, and the date math for determining the
-// start of a week. Luxon uses non-zero based values for `weekday`.
-const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 1 });
 
 const weekNumberMap = {
   week1: 1,
@@ -96,64 +83,6 @@ function transformEvents(events: {}) {
   return formattedEvents;
 }
 
-// Example usage:
-const events = {
-  week1: [
-    {
-      weekday: "MONDAY",
-      title: "The Meru Health Program",
-      completed: true,
-    },
-    {
-      weekday: "WEDNESDAY",
-      title: "Introduction to the Program",
-      completed: true,
-    },
-    {
-      weekday: "FRIDAY",
-      title: "The Science Behind Mindfulness",
-      completed: true,
-    },
-  ],
-  week2: [
-    {
-      weekday: "MONDAY",
-      title: "Mind on Autopilot",
-      completed: true,
-    },
-    {
-      weekday: "WEDNESDAY",
-      title: "Mindful Presence",
-      completed: false,
-    },
-    {
-      weekday: "FRIDAY",
-      title: "Consequences of Autopilot",
-      completed: false,
-    },
-  ],
-  week3: [
-    {
-      weekday: "MONDAY",
-      title: "The Negativity Spiral",
-      completed: false,
-    },
-    {
-      weekday: "WEDNESDAY",
-      title: "Spiral of Negative Interpretations",
-      completed: false,
-    },
-    {
-      weekday: "FRIDAY",
-      title: "Interrupting the Negativity Spiral",
-      completed: false,
-    },
-  ],
-  // Additional weeks...
-};
-
-const formattedEvents = transformEvents(events);
-
 // shift days if incomplete
 function shiftDays(formattedEvents) {
   let now = DateTime.local();
@@ -191,9 +120,22 @@ function shiftDays(formattedEvents) {
   return reassigned;
 }
 
-const EventCalendar = () => {
+const EventCalendar = ({ events }: { events: any }) => {
   const currentLocalDate = DateTime.local().setZone("Europe/Helsinki");
 
+  const formattedEvents = transformEvents(events);
+
+  // only use `Settings` if you require optional time zone support
+  Settings.defaultZone = "Europe/Helsinki";
+  // end optional time zone support
+
+  // Luxon uses the Intl API, which currently does not contain `weekInfo`
+  // to determine which weekday is the start of the week by `culture`.
+  // The `luxonLocalizer` defaults this to Sunday, which differs from
+  // the Luxon default of Monday. The localizer requires this option
+  // to change the display, and the date math for determining the
+  // start of a week. Luxon uses non-zero based values for `weekday`.
+  const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 1 });
   return (
     <div>
       <div>
