@@ -102,7 +102,9 @@ export function transformEvents(
 
           return toReactBigCalendarEventFormat({
             title: event.title,
+            //@ts-ignore
             start: startDate,
+            //@ts-ignore
             end: endDate,
             completed: event.completed,
             weekday: event.weekday,
@@ -110,6 +112,7 @@ export function transformEvents(
         }
       );
 
+      //@ts-ignore
       return acc.concat(transformedWeekEvents);
     },
     []

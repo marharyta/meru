@@ -26,6 +26,9 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        worksans: ["var(--font-worksans)"],
+        libre: ["var(--font-libre-franklin)"],
+        one: ["var(--font-one)"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -33,6 +36,7 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        brand: "rgb(93, 175, 116)",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

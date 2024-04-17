@@ -1,15 +1,31 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/lib/theme-provider";
 import Header from "@/app/Header";
 import "./globals.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Script from "next/script";
+import { Fjalla_One, Libre_Franklin, Work_Sans } from "next/font/google";
 
-const fontSans = FontSans({
+const workSans = Work_Sans({
+  weight: "700",
   subsets: ["latin"],
-  variable: "--font-sans",
+  display: "swap",
+  variable: "--font-worksans",
+});
+
+const libreFranklin = Libre_Franklin({
+  weight: ["700", "400"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-libre-franklin",
+});
+
+const fjallaOne = Fjalla_One({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-one",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +58,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${workSans.variable} ${libreFranklin.variable} ${fjallaOne.variable} font-sans`}
+    >
       <head>
         {/*TODO: figure out why taikwind is not importing all classes*/}
         <Script
@@ -51,10 +70,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
+        className={cn("min-h-screen bg-background font-sans antialiased", "")}
       >
         <ThemeProvider
           attribute="class"

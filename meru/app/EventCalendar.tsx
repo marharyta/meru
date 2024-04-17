@@ -40,9 +40,9 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
 
   return (
     <div>
-      <h2 className="text-3xl md:text-6xl text-center font-bold py-3">
+      <h2 className="text-3xl md:text-6xl text-center font-medium py-3 font-one leading-normal">
         Weekly Programme
-        <span className="block text-2xl">
+        <span className="block text-2xl leading-normal text-black-300">
           {currentLocalDate.toLocaleString({ month: "long", year: "numeric" })}
         </span>
       </h2>
@@ -51,8 +51,8 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
           eventWrapper: ({ event }: { event: any }) => {
             return (
               <div
-                className={`w-full h-full bg-transparent text-center text-pretty text-xs font-medium uppercase overflow-hidden px-0.5 h-64 ${
-                  event?.completed && "text-black"
+                className={`w-full h-full bg-transparent text-center text-pretty text-xs font-light uppercase overflow-hidden px-0.5 h-64 font-libre ${
+                  event?.completed && "text-brand"
                 }`}
               >
                 {event?.completed && (
@@ -80,7 +80,7 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
           },
           month: {
             dateHeader: (obj) => {
-              const { date, label } = obj;
+              const { date } = obj;
               const cellDate = DateTime.fromJSDate(date);
               const eventOnDay = dayWithEvent(cellDate, formattedEvents);
               const now = DateTime.now();
@@ -88,11 +88,11 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
 
               return (
                 <h1
-                  className={` w-full h-full text-center font-semibold text-3xl md:text-6xl mb-3 mt-1 font-one ${
+                  className={` w-full h-full text-center font-semibold text-3xl md:text-6xl mb-3 mt-1 font-libre ${
                     eventOnDay && "text-brand "
                   } ${isToday && "text-white "}`}
                 >
-                  {label}
+                  {cellDate.get("day")}
                 </h1>
               );
             },

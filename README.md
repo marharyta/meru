@@ -32,16 +32,16 @@ Your app should match the design in the picture above using the following specs:
 
 ### Colors
 
-* Black: `rgba(0, 0, 0, 0.8)`
-* Green: `rgb(93, 175, 116)`
-* White: `rgb(255, 255, 255)`
+- Black: `rgba(0, 0, 0, 0.8)`
+- Green: `rgb(93, 175, 116)`
+- White: `rgb(255, 255, 255)`
 
 ### Text Styles
 
-* `h1` [Fjalla One 700](https://fonts.google.com/?query=Fjalla+One) `48px / 1.3`
-* `h2` [Libre Franklin 700](https://fonts.google.com/?query=Libre+Franklin) `64px`
-* `h3` [Libre Franklin 400](https://fonts.google.com/?query=Libre+Franklin) `10px / 1.2`
-* `th` [Work Sans 700](https://fonts.google.com/?query=Work+Sans) `16px`
+- `h1` [Fjalla One 700](https://fonts.google.com/?query=Fjalla+One) `48px / 1.3`
+- `h2` [Libre Franklin 700](https://fonts.google.com/?query=Libre+Franklin) `64px`
+- `h3` [Libre Franklin 400](https://fonts.google.com/?query=Libre+Franklin) `10px / 1.2`
+- `th` [Work Sans 700](https://fonts.google.com/?query=Work+Sans) `16px`
 
 ## Tech
 
@@ -55,4 +55,17 @@ You should at least update the `README.md` with installation and running instruc
 
 **Remember to check that you have committed all required files and instructions before submitting the pull request** :white_check_mark: Good way to check this is to clone the repository into different folder and follow the instructions you have written to run the app.
 
-***You have the option to receive a compensation of 120 € (gross salary) for the work on this test project by providing your tax card and your bank account IBAN number. If you are interested in this option, please let us know via email me when you submit your solution.***
+**_You have the option to receive a compensation of 120 € (gross salary) for the work on this test project by providing your tax card and your bank account IBAN number. If you are interested in this option, please let us know via email me when you submit your solution._**
+
+How I organized it?
+
+I used NextJS app with React. NextJS would pre-fetch the events.
+I initially was intending to use https://www.npmjs.com/package/@fullcalendar/react to do calendar implementation, however, after comparing it to other calendar solutions, arrived at the
+
+## How I implemented UI?
+
+Introdused themes.
+
+## How I implemented the incomplete events?
+
+In the description, it says that "If a user has not completed an activity in the past, the activity will be moved to the current day" - which is what I kept. Since there can be only one activity per day,if there are multiple incomplete activities in the past, the first incomplete activity will be displayed today, however from that point I did change the logic: the following activities are not happening in a row, but rather on consecutive correct days of the week.
