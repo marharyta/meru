@@ -51,11 +51,16 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
           className="min-w-full w-[68rem]"
           components={{
             eventWrapper: ({ event }: { event: any }) => {
+              console.log(event);
+              const cellDate = DateTime.fromJSDate(event.start);
+
+              const now = DateTime.now();
+              const isToday = isSameDayMonthYear(cellDate, now);
               return (
                 <div
                   className={`w-full h-full bg-transparent text-center text-pretty text-xs font-light uppercase overflow-hidden px-0.5 h-64 font-libre ${
-                    event?.completed && "text-brand"
-                  }`}
+                    event?.completed && " text-brand "
+                  } ${isToday && " text-white "}`}
                 >
                   {event?.completed && (
                     <HiCheckCircle className="block w-full text-center" />
@@ -90,9 +95,9 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
 
                 return (
                   <h1
-                    className={`w-full h-full text-center font-semibold text-3xl md:text-6xl mb-3 mt-1 font-libre ${
+                    className={`w-full h-full text-center font-semibold text-4xl md:text-6xl py-4 -mb-3 mt-1 font-libre ${
                       eventOnDay && "text-brand "
-                    } ${isToday && "text-white "}`}
+                    } ${isToday && " !text-white "}`}
                   >
                     {cellDate.get("day")}
                   </h1>
