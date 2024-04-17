@@ -22,7 +22,7 @@ Each week contains multiple activities, each described by the day of the week, a
 
 Currently, design loooks like this
 
-![](examples/screenschot.png)
+![](examples/record.gif)
 
 The treatment program is visualized on a calendar with the following features:
 
