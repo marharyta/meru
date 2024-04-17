@@ -49,6 +49,28 @@ export const weekdayMap = {
   SUNDAY: 7,
 };
 
+export const dayWithEvent = (cellDate: LuxonDateTime, events: Events) => {
+  const currentDate = cellDate.get("day");
+  const currentMonth = cellDate.get("month");
+  return events?.find((event: any) => {
+    const eventStartDate = DateTime.fromJSDate(event?.start).get("day");
+    const eventStartMonth = DateTime.fromJSDate(event?.start).get("month");
+
+    return eventStartDate === currentDate && currentMonth === eventStartMonth;
+  });
+};
+
+export const isSameDayMonthYear = (
+  cellDate: LuxonDateTime,
+  now: LuxonDateTime
+) => {
+  return (
+    cellDate.hasSame(now, "day") &&
+    cellDate.hasSame(now, "month") &&
+    cellDate.hasSame(now, "year")
+  );
+};
+
 export function nextDayofWeek(now: any, event: Event, weekdayMap: any) {
   return now.plus({
     days: (weekdayMap[event.weekday] + 7 - now.weekday) % 7,
@@ -96,7 +118,6 @@ export function transformEvents(
 }
 
 export function shiftDays(formattedEvents: Events, currentLocalDate: any) {
-  console.log("no complteed events");
   if (formattedEvents[0].completed === false) {
     return [];
   }

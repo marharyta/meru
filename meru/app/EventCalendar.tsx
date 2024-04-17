@@ -8,13 +8,14 @@ import {
   shiftDays,
   weekNumberMap,
   weekdayMap,
+  dayWithEvent,
+  isSameDayMonthYear,
 } from "@/lib/utils";
 import { BaseEvents, Event, LuxonDateTime } from "@/lib/types";
 import jstz from "jstz";
 
 const EventCalendar = ({ events }: { events: BaseEvents }) => {
   const timezone = jstz.determine();
-
   Settings.defaultZone = timezone.name() || "Europe/Helsinki";
   const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 1 });
   const currentLocalDate: LuxonDateTime = DateTime.local().setZone(
@@ -39,116 +40,72 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
 
   return (
     <div>
-      <div>
-        <h2>
+      <h2 className="text-3xl md:text-6xl text-center font-bold py-3">
+        Weekly Programme
+        <span className="block text-2xl">
           {currentLocalDate.toLocaleString({ month: "long", year: "numeric" })}
-        </h2>
-        <Calendar
-          components={{
-            eventWrapper: ({ event }: { event: any }) => {
-              return (
-                <div
-                  className={`w-full h-full bg-transparent text-center text-pretty text-xs uppercase overflow-hidden px-0.5 h-64 ${
-                    event?.completed && "text-green-600"
-                  }`}
-                >
-                  {event?.completed && (
-                    <HiCheckCircle className="block w-full text-center" />
-                  )}
-                  {event?.title}
-                </div>
-              );
-            },
-            dateCellWrapper: (obj) => {
-              const { children, value } = obj;
-              // cell dates
-              const cellDate = DateTime.fromJSDate(value);
-              const currentDate = cellDate.get("day");
-              const currentMonth = cellDate.get("month");
+        </span>
+      </h2>
+      <Calendar
+        components={{
+          eventWrapper: ({ event }: { event: any }) => {
+            return (
+              <div
+                className={`w-full h-full bg-transparent text-center text-pretty text-xs font-medium uppercase overflow-hidden px-0.5 h-64 ${
+                  event?.completed && "text-black"
+                }`}
+              >
+                {event?.completed && (
+                  <HiCheckCircle className="block w-full text-center" />
+                )}
+                {event?.title}
+              </div>
+            );
+          },
+          dateCellWrapper: (obj) => {
+            const { children, value } = obj;
+            const cellDate = DateTime.fromJSDate(value);
+            const now = DateTime.now();
+            const isToday = isSameDayMonthYear(cellDate, now);
 
-              const dayWithEvent = formattedEvents.find((event: any) => {
-                const eventStartDate = DateTime.fromJSDate(event?.start).get(
-                  "day"
-                );
-                const eventStartMonth = DateTime.fromJSDate(event?.start).get(
-                  "month"
-                );
-
-                let height =
-                  eventStartDate === currentDate &&
-                  currentMonth === eventStartMonth;
-                return height;
-              });
-
+            return (
+              <div
+                className={`w-full h-full border border-brand  ${
+                  isToday && " !bg-brand "
+                }`}
+              >
+                {children}
+              </div>
+            );
+          },
+          month: {
+            dateHeader: (obj) => {
+              const { date, label } = obj;
+              const cellDate = DateTime.fromJSDate(date);
+              const eventOnDay = dayWithEvent(cellDate, formattedEvents);
               const now = DateTime.now();
-              // Compare dates by day, month, and year
-              const isSameDayMonthYear =
-                cellDate.hasSame(now, "day") &&
-                cellDate.hasSame(now, "month") &&
-                cellDate.hasSame(now, "year");
+              const isToday = isSameDayMonthYear(cellDate, now);
 
               return (
-                <div
-                  className={`w-full h-full border border-green-500 ${
-                    dayWithEvent && " "
-                  } ${isSameDayMonthYear && " !bg-green-300 "}`}
+                <h1
+                  className={` w-full h-full text-center font-semibold text-3xl md:text-6xl mb-3 mt-1 font-one ${
+                    eventOnDay && "text-brand "
+                  } ${isToday && "text-white "}`}
                 >
-                  {children}
-                </div>
+                  {label}
+                </h1>
               );
             },
-            month: {
-              dateHeader: (obj) => {
-                const { date, label } = obj;
-
-                // cell dates
-                const cellDate = DateTime.fromJSDate(date);
-                const currentDate = cellDate.get("day");
-                const currentMonth = cellDate.get("month");
-
-                const dayWithEvent = formattedEvents.find((event) => {
-                  const eventStartDate = DateTime.fromJSDate(event.start).get(
-                    "day"
-                  );
-                  const eventStartMonth = DateTime.fromJSDate(event.start).get(
-                    "month"
-                  );
-
-                  return (
-                    eventStartDate === currentDate &&
-                    currentMonth === eventStartMonth
-                  );
-                });
-
-                const now = DateTime.now();
-
-                // Compare dates by day, month, and year
-                const isSameDayMonthYear =
-                  cellDate.hasSame(now, "day") &&
-                  cellDate.hasSame(now, "month") &&
-                  cellDate.hasSame(now, "year");
-
-                return (
-                  <h1
-                    className={` w-full h-full text-center font-semibold text-3xl md:text-6xl mb-3 mt-1 ${
-                      dayWithEvent && "text-green-300 "
-                    } ${isSameDayMonthYear && "text-white "}`}
-                  >
-                    {label}
-                  </h1>
-                );
-              },
-            },
-          }}
-          localizer={localizer}
-          events={completedEvents.concat(rescheduledEvents)}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 700 }}
-          toolbar={false}
-          defaultView="month"
-        />
-      </div>
+          },
+        }}
+        localizer={localizer}
+        events={completedEvents.concat(rescheduledEvents)}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 700 }}
+        toolbar={false}
+        defaultView="month"
+      />
     </div>
   );
 };
