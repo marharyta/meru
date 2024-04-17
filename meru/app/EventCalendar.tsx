@@ -39,73 +39,76 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
   );
 
   return (
-    <div>
+    <div className="max-w-full overflow-hidden">
       <h2 className="text-3xl md:text-6xl text-center font-medium py-3 font-one leading-normal">
         Weekly Programme
         <span className="block text-2xl leading-normal text-black-300">
           {currentLocalDate.toLocaleString({ month: "long", year: "numeric" })}
         </span>
       </h2>
-      <Calendar
-        components={{
-          eventWrapper: ({ event }: { event: any }) => {
-            return (
-              <div
-                className={`w-full h-full bg-transparent text-center text-pretty text-xs font-light uppercase overflow-hidden px-0.5 h-64 font-libre ${
-                  event?.completed && "text-brand"
-                }`}
-              >
-                {event?.completed && (
-                  <HiCheckCircle className="block w-full text-center" />
-                )}
-                {event?.title}
-              </div>
-            );
-          },
-          dateCellWrapper: (obj) => {
-            const { children, value } = obj;
-            const cellDate = DateTime.fromJSDate(value);
-            const now = DateTime.now();
-            const isToday = isSameDayMonthYear(cellDate, now);
-
-            return (
-              <div
-                className={`w-full h-full border border-brand  ${
-                  isToday && " !bg-brand "
-                }`}
-              >
-                {children}
-              </div>
-            );
-          },
-          month: {
-            dateHeader: (obj) => {
-              const { date } = obj;
-              const cellDate = DateTime.fromJSDate(date);
-              const eventOnDay = dayWithEvent(cellDate, formattedEvents);
+      <div className="min-w-full max-width-full overflow-scroll">
+        <Calendar
+          className="min-w-full w-[68rem]"
+          components={{
+            eventWrapper: ({ event }: { event: any }) => {
+              return (
+                <div
+                  className={`w-full h-full bg-transparent text-center text-pretty text-xs font-light uppercase overflow-hidden px-0.5 h-64 font-libre ${
+                    event?.completed && "text-brand"
+                  }`}
+                >
+                  {event?.completed && (
+                    <HiCheckCircle className="block w-full text-center" />
+                  )}
+                  {event?.title}
+                </div>
+              );
+            },
+            dateCellWrapper: (obj) => {
+              const { children, value } = obj;
+              const cellDate = DateTime.fromJSDate(value);
               const now = DateTime.now();
               const isToday = isSameDayMonthYear(cellDate, now);
 
               return (
-                <h1
-                  className={` w-full h-full text-center font-semibold text-3xl md:text-6xl mb-3 mt-1 font-libre ${
-                    eventOnDay && "text-brand "
-                  } ${isToday && "text-white "}`}
+                <div
+                  className={`w-full h-full border border-brand  ${
+                    isToday && " !bg-brand "
+                  }`}
                 >
-                  {cellDate.get("day")}
-                </h1>
+                  {children}
+                </div>
               );
             },
-          },
-        }}
-        localizer={localizer}
-        events={completedEvents.concat(rescheduledEvents)}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 700 }}
-        toolbar={false}
-        defaultView="month"
-      />
+            month: {
+              dateHeader: (obj) => {
+                const { date } = obj;
+                const cellDate = DateTime.fromJSDate(date);
+                const eventOnDay = dayWithEvent(cellDate, formattedEvents);
+                const now = DateTime.now();
+                const isToday = isSameDayMonthYear(cellDate, now);
+
+                return (
+                  <h1
+                    className={`w-full h-full text-center font-semibold text-3xl md:text-6xl mb-3 mt-1 font-libre ${
+                      eventOnDay && "text-brand "
+                    } ${isToday && "text-white "}`}
+                  >
+                    {cellDate.get("day")}
+                  </h1>
+                );
+              },
+            },
+          }}
+          localizer={localizer}
+          events={completedEvents.concat(rescheduledEvents)}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 700 }}
+          toolbar={false}
+          defaultView="month"
+        />
+      </div>
     </div>
   );
 };
