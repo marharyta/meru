@@ -1,8 +1,9 @@
 import EventCalendar from "./EventCalendar";
 import { getEvents } from "@/api/events";
+import { BaseEvents } from "@/lib/types";
 
 export default async function Home() {
-  const events = await getEvents();
+  const events: BaseEvents = await getEvents();
   return (
     <main className="">
       <EventCalendar events={events} />

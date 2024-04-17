@@ -1,5 +1,6 @@
-// Example usage:
-const events = {
+import { BaseEvents } from "@/lib/types";
+
+const events: BaseEvents = {
   week1: [
     {
       weekday: "MONDAY",
@@ -51,7 +52,6 @@ const events = {
       completed: false,
     },
   ],
-  // Additional weeks...
 };
 
 export const getEvents = async () => events;
