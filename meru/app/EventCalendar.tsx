@@ -51,7 +51,6 @@ const EventCalendar = ({ events }: { events: BaseEvents }) => {
           className="min-w-full w-[68rem]"
           components={{
             eventWrapper: ({ event }: { event: any }) => {
-              console.log(event);
               const cellDate = DateTime.fromJSDate(event.start);
 
               const now = DateTime.now();

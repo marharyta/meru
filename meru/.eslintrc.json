@@ -4,5 +4,9 @@
     "next/core-web-vitals",
     "plugin:testing-library/react",
     "plugin:jest-dom/recommended"
-  ]
+  ],
+  "rules": {
+    "no-console": "error",
+    "no-debugger": "error"
+  }
 }
